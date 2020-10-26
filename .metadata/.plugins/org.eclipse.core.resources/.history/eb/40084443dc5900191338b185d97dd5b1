@@ -1,0 +1,15 @@
+package hr.fer.zemris.lsystems.impl;
+
+import hr.fer.zemris.java.custom.collections.*;
+public class Context {
+
+	private ObjectStack<TurtleState> stack;
+	
+	TurtleState getCurrentState() {
+		return stack.peek();
+	}
+	
+	void pushState(TurtleState state) {
+		stack.push(state);
+	}
+}

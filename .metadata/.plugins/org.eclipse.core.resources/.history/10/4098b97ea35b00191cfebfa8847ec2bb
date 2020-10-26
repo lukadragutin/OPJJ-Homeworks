@@ -1,0 +1,35 @@
+package hr.fer.zemris.java.hw05.db;
+
+public class ComparisonOperators {
+
+	public static final IComparisonOperator LESS = (v1, v2) -> v1.compareTo(v2) < 0;
+	public static final IComparisonOperator LESS_OR_EQUALS = (v1, v2) -> v1.compareTo(v2) <= 0;
+	public static final IComparisonOperator GREATER = (v1, v2) -> v1.compareTo(v2) > 0;
+	public static final IComparisonOperator GREATER_OR_EQUALS = (v1, v2) -> v1.compareTo(v2) >= 0;
+	public static final IComparisonOperator EQUALS = (v1, v2) -> v1.compareTo(v2) == 0;
+	public static final IComparisonOperator NOT_EQUALS = (v1, v2) -> v1.compareTo(v2) != 0;
+	public static final IComparisonOperator LIKE = getLike();
+	
+	private static IComparisonOperator getLike() {
+		return new IComparisonOperator() {
+			
+			@Override
+			public boolean satisfied(String value1, String value2) {
+				if(!value2.contains("*")) {
+					return value1.startsWith(value2);
+				}
+				String[] substring = value2.split("*");
+				if(substring.length > 2) {
+					throw new IllegalArgumentException("Can't use more than one wildcard '*'!");
+				}
+//				if(substring.length == 1) {
+//					if(value2.endsWith("*")) {
+//						return value1.startsWith(substring[0]);
+//					}
+//					else return value1.endsWith(substring[0]);
+//				}
+				return value1.startsWith(substring[0]) && value1.endsWith(substring[1]);
+			}
+		};
+	}
+}

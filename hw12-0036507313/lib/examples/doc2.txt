@@ -1,0 +1,11 @@
+Trying to break the application.
+{$FoR ii23_11 10 "10" 1$}
+	{$ for k_a 12 2$}
+		This is going to be a difficult one
+		{$  = o popo 2 / 2 "234" @function $}
+	{$END$}
+	And "another" \\ one.
+	{$ = 17 + 12 "nece" $}
+{$END$}
+  More text to finish it off.
+{$ = and a tag 2 $}

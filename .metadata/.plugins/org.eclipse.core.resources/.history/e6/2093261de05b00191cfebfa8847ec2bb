@@ -1,0 +1,52 @@
+package hr.fer.zemris.java.hw05.db;
+
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+
+class QueryParserTest {
+
+	@Test
+	void directQuery() {
+		var qp = new QueryParser("jmbag = \"0000000005\"");
+		assertEquals("0000000005", qp.getQuerriedJMBAG());
+		assertTrue(qp.isDirectQuery());
+	}
+
+	@Test
+	void singleQuery() {
+		var qp = new QueryParser("firstName != \"Marko\"");
+		var query = qp.getQuery();
+		var expression = query.get(0);
+		assertEquals(FieldValueGetters.FIRST_NAME, expression.getFieldGetter());
+		assertEquals(ComparisonOperators.NOT_EQUALS, expression.getComparisonOperator());
+		assertEquals("Marko", expression.getStringLiteral());
+	}
+
+	@Test
+	void multipleQuery() {
+		var qp = new QueryParser("lastName >\"Franjo\" aNd jmbag <= \"0000000025\"");
+		var query = qp.getQuery();
+		var expression = query.get(0);
+		assertEquals(2, query.size());
+		assertEquals(FieldValueGetters.LAST_NAME, expression.getFieldGetter());
+		assertEquals(ComparisonOperators.GREATER, expression.getComparisonOperator());
+		assertEquals("Franjo", expression.getStringLiteral());
+		expression = query.get(1);
+		assertEquals(FieldValueGetters.JMBAG, expression.getFieldGetter());
+		assertEquals(ComparisonOperators.LESS_OR_EQUALS, expression.getComparisonOperator());
+		assertEquals("0000000025", expression.getStringLiteral());
+	}
+	
+	@Test
+	void wrongQuery() {
+		assertThrows(IllegalArgumentException.class, () -> new QueryParser("query jmbag = \"0000000008\""));
+	}
+
+	@Test
+	void wrongOperator() {
+		assertThrows(IllegalArgumentException.class, () -> new QueryParser("jmbag  Like \"0000000008\""));
+		assertThrows(IllegalArgumentException.class, () -> new QueryParser("jmbag + \"0000000008\""));
+
+
+	}
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Gallery</title>
+
+<style>
+
+	.thumby {
+		border: 2px solid;
+		margin-left: 4px;
+		
+	}
+
+	.thumby:hover {
+		box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+	}
+
+	#picture {
+		max-width: 80%;
+		height: auto;
+	}
+
+	.bigPic {
+  		margin-left: auto;
+  		margin-right: auto;
+  		font-family: monospace;
+  		font-size: x-large;
+	}
+
+	button {
+		background-color: white;
+		border: 2px solid red;
+		padding: 16px 7px;
+		border-radius: 4px;
+		margin-left: 2px;
+		margin-top: 3px;
+	}
+
+	button:hover {
+		background-color: red;
+		color: white;
+	}
+
+	h2 {
+		color: green;
+		text-align: center;
+	}
+
+</style>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+		$(document).ready(
+				getTags()
+				);
+
+		
+			function getTags(){
+				$.ajax({
+						url: "rest/pictures",
+						data: {
+							dummy: "help"
+						},
+						dataType: "json",
+						success: function(data) {
+							var tags = data;
+							var html = "";
+							if(tags.length == 0) {
+								html = "No data...";
+							} else {
+								for(var i = 0; i < tags.length; i++) {
+									var e = tags[i];
+									html += "<button onclick=\"getPictures('"+ e.toString() +"')\" >" + e + "</button>";
+								}
+							}
+							html += "<hr><br>"
+							$("#tags").html(html);
+						}
+					}
+				);
+			}
+	
+		function getPictures(p1) {
+			$("#tag").html("");
+			$("#desc").html("");
+			$("#picture").html("");
+			
+			var tag = p1;
+			$.ajax(
+			 {
+				url: "rest/pictures/" + tag,
+				dataType: "json",
+				success: function(data) {
+					var pictures = data;
+					var html = "";
+					for(var i = 0; i < data.length; i++) {
+						html += "<span><a href=\"#\"><img class='thumby' onclick=\"load('"+pictures[i]+"')\"  src=\"thumbnail?name="+ pictures[i] + "\"></a></span>";
+					}
+					html+= "<hr><br>"
+					$("#thumbnails").html(html);
+				}
+			 }
+			);
+		}
+		
+		function load(p) {
+			var picture = p;
+			
+			$.ajax(
+				{
+				url: "rest/pictures/full/" + picture,
+				dataType: "json",
+				success: function(data) {
+					var picture = data;
+					var htmlTag = "Tags: <b>"+ picture.tags +"</b>";
+					var htmlDesc = "Short description: <p>"+ picture.desc +"</p>";
+					var html = "<img src=\"image?name=" + picture.path + "\" alt=\""+ picture.desc +"\">";
+					$("#tag").html(htmlTag);
+					$("#desc").html(htmlDesc);
+					$("#picture").html(html);
+				}
+				}
+			);
+		}
+	</script>
+</head>
+<body>
+
+	<h2 id="title">Gallery Of Wonderful Images</h2>
+
+	<div id="tags"></div>
+	<span id="thumbnails"></span>
+	<br>
+	
+	<div class='bigPic' align="center">
+	<div id="picture"></div>
+	<div id="tag"></div>
+	<div id="desc"></div>
+	</div>
+</body>
+</html>

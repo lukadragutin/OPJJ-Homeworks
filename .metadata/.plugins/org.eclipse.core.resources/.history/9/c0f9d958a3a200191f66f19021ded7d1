@@ -1,0 +1,242 @@
+package hr.fer.zemris.java.gui.layouts;
+
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.LayoutManager2;
+import java.util.Objects;
+
+/**
+ * Razred koji modelira raspored komponenata u grafickom sucelju poput onog u
+ * kalkulatoru
+ * 
+ * @author Luka Dragutin
+ *
+ */
+public class CalcLayout implements LayoutManager2 {
+
+	/**
+	 * Komponente grafickog sucelja
+	 */
+	private Component[][] components = new Component[5][7];
+
+	/** Razmak izmedu komponenti */
+	private int spacing;
+
+	/**
+	 * Defaultni konstruktor, postavlja razmak izmedu komponenti na 0
+	 */
+	public CalcLayout() {
+		this(0);
+	}
+
+	/**
+	 * Konstruktor koji kao jedini argument prima razmak izmedu komponenata
+	 * 
+	 * @param spacing Razmak izmedu komponenata
+	 * @throws CalcLayoutException Ako je razmak negativan
+	 */
+	public CalcLayout(int spacing) {
+		if (spacing < 0) {
+			throw new CalcLayoutException("Spacing cannot be negative!");
+		}
+		this.spacing = spacing;
+	}
+
+	@Override
+	public void addLayoutComponent(String name, Component comp) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void removeLayoutComponent(Component comp) {
+		int i = 0;
+		for (Component[] c : components) {
+			int j = 0;
+			for (Component c1 : c) {
+				if (comp.equals(c1)) {
+					components[i][j] = null;
+				}
+				j++;
+			}
+			i++;
+		}
+
+	}
+
+	@Override
+	public Dimension preferredLayoutSize(Container parent) {
+		return layoutSizeGetter(Component::getPreferredSize, parent);
+	}
+
+	@Override
+	public Dimension minimumLayoutSize(Container parent) {
+		return layoutSizeGetter(Component::getMinimumSize, parent);
+	}
+
+	@Override
+	public void layoutContainer(Container parent) {
+		Dimension parentSize = parent.getBounds().getSize();
+		var ins = parent.getInsets();
+		double height = (parentSize.getHeight() - ins.bottom - ins.top - 4 * spacing) / 5;
+		double width = (parentSize.getWidth() - ins.left - ins.right - 6 * spacing) / 7;
+
+		int heightRound = (int) Math.round(height);
+		int widthRound = (int) Math.round(width);
+
+		int heightExtra = (int) ((parentSize.height - 4 * spacing - 5 * heightRound));
+		int widthExtra = (int) ((parentSize.width - 6 * spacing - 7 * widthRound));
+
+		int heightSkip = 1;
+		if (heightExtra != 0) {
+			heightSkip = Math.abs(5 / heightExtra);
+		}
+
+		int widthSkip = 1;
+		if (widthExtra != 0) {
+			widthSkip = Math.abs(7 / widthExtra);
+		}
+
+		int hSkipConstant = heightExtra < 0 ? 1 : -1;
+		int wSkipConstant = widthExtra < 0 ? 1 : -1;
+
+		int i = 0;
+		for (Component[] c1 : components) {
+			int j = 0;
+			int total = 0;
+			for (Component c2 : c1) {
+				if (c2 == null) {
+					j++;
+					continue;
+				}
+				if (i == 0 && j == 0) {
+					c2.setBounds(0, 0, (widthRound) * 5 + 4 * spacing + (wSkipConstant * (5 / widthSkip)), heightRound);
+					total += (widthRound) * 5 + 4 * spacing + (wSkipConstant * (5 / widthSkip));
+					j++;
+					continue;
+				}
+				if (j == 6) {
+					c2.setBounds(j * widthRound + j * spacing + (j / widthSkip) * wSkipConstant,
+							i * heightRound + i * spacing + (i / heightSkip) * hSkipConstant,
+							parentSize.width - total,
+							heightRound + ((i + 1) % heightSkip == 0 ? hSkipConstant : 0));
+				} else {
+					total += widthRound + ((j + 1) % widthSkip == 0 ? wSkipConstant : 0);
+					c2.setBounds(j * widthRound + j * spacing + (j / widthSkip) * wSkipConstant,
+							i * heightRound + i * spacing + (i / heightSkip) * hSkipConstant,
+							widthRound + ((j + 1) % widthSkip == 0 ? wSkipConstant : 0),
+							heightRound + ((i + 1) % heightSkip == 0 ? hSkipConstant : 0));
+					j++;
+				}
+			}
+			i++;
+		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @throws CalcLayoutException <i> Ako se pokusa dodati komponenta na mjesto
+	 *                             koje je vec zauzeto <i> Ako se pokusaju dodati
+	 *                             komponente sa koordinatama x = 1, 1 < y < 6 <i>
+	 *                             Ako se pokusaju dodati komponente sa koordinatama
+	 *                             manjim od nula ili x > 5, y > 7 <i> Ako se preda
+	 *                             argument constraints koji nije tipa
+	 *                             {@link RCPosition} ili primjereni String
+	 */
+	@Override
+	public void addLayoutComponent(Component comp, Object constraints) {
+		RCPosition rcp = null;
+		if (constraints instanceof String) {
+			String line = (String) constraints;
+			String[] split = line.split(",");
+			if (split.length != 2) {
+				throw new CalcLayoutException("Illegal position!");
+			}
+			try {
+				int x = Integer.parseInt(split[0]);
+				int y = Integer.parseInt(split[1]);
+				rcp = new RCPosition(x, y);
+			} catch (NumberFormatException e) {
+				throw new CalcLayoutException("Illegal position!");
+			}
+		} else if (constraints instanceof RCPosition) {
+			rcp = (RCPosition) constraints;
+		} else {
+			throw new CalcLayoutException("Invalid type of constraints!");
+		}
+		if (components[rcp.getX() - 1][rcp.getY() - 1] != null) {
+			throw new CalcLayoutException("The position is occupied!");
+		}
+		components[rcp.getX() - 1][rcp.getY() - 1] = Objects.requireNonNull(comp);
+	}
+
+	@Override
+	public Dimension maximumLayoutSize(Container target) {
+		return layoutSizeGetter(Component::getMaximumSize, target);
+	}
+
+	@Override
+	public float getLayoutAlignmentX(Container target) {
+		return 0;
+	}
+
+	@Override
+	public float getLayoutAlignmentY(Container target) {
+		return 0;
+	}
+
+	@Override
+	public void invalidateLayout(Container target) {
+	}
+
+	/**
+	 * Pomocna metoda iteriranje po komponentama i pronalazak najvecih dimenzija od
+	 * trazenih
+	 * 
+	 * @param dg     Dohvatac trazenih dimenzija
+	 * @param target Odredisna komponenta
+	 * @return Najvecu dimenziju od trazenih
+	 */
+	private Dimension layoutSizeGetter(DimensionGetter dg, Container target) {
+		Component big = components[0][0];
+		Dimension max = null;
+		if (big != null) {
+			Dimension bigDim = dg.get(big);
+			max = new Dimension((bigDim.width - 4 * spacing) / 5, bigDim.height);
+		}
+
+		int i = 0;
+		for (Component[] c1 : components) {
+			int j;
+			if (i == 0) {
+				j = 5;
+			} else {
+				j = 0;
+			}
+
+			for (; j < components[i].length; j++) {
+				Component c = c1[j];
+
+				if (c == null) {
+					continue;
+				}
+
+				Dimension d = dg.get(c);
+				if (max == null) {
+					max = d;
+				} else {
+					double height = d.getHeight() > max.getHeight() ? d.getHeight() : max.getHeight();
+					double width = d.getWidth() > max.getWidth() ? d.getWidth() : max.getWidth();
+					max.setSize(width, height);
+				}
+			}
+			i++;
+		}
+		return new Dimension(max.width * 7 + 6 * spacing, max.height * 5 + 4 * spacing);
+	}
+
+	private static interface DimensionGetter {
+		Dimension get(Component c);
+	}
+}

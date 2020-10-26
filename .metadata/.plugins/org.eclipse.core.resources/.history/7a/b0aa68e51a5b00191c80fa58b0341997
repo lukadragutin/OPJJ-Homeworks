@@ -1,0 +1,36 @@
+package hr.fer.zemris.lsystems.impl;
+
+import hr.fer.zemris.java.custom.collections.*;
+public class Context {
+
+	private ObjectStack<TurtleState> stack;
+	private double degree;
+	private int depth;
+	
+	public Context(double degree, int depth) {
+		super();
+		stack = new ObjectStack<>();
+		this.degree = degree;
+		this.depth = depth;
+		}
+
+	public double getDegree() {
+		return degree;
+	}
+	
+	public int getDepth() {
+		return depth;
+	}
+
+	public TurtleState getCurrentState() {
+		return stack.peek();
+	}
+	
+	public void pushState(TurtleState state) {
+		stack.push(state);
+	}
+	
+	public void popState() {
+		stack.pop();
+	}
+}

@@ -1,0 +1,10 @@
+package hr.fer.zemris.lsystems.impl.demo;
+
+public class Glavni2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

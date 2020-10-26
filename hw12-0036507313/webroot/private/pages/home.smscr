@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home Sweet Home</title>
+    <style type="text/css">
+      BODY {
+	background-color: #{$ = "background" "7F7F7F" @tparamGet $};}
+    </style>
+  </head>
+  <body>
+
+    <h1>Welcome home friend!</h1>
+
+    <p>Scripts:</p>
+    <a href="http://127.0.0.1:5721/scripts/osnovni.smscr">osnovni.smscr </a><br>
+    <a href="http://127.0.0.1:5721/scripts/brojPoziva.smscr">brojPoziva.smscr </a><br>
+    <a href="http://127.0.0.1:5721/scripts/fibonaccih.smscr">fibonaccih.smscr </a><br>
+    <br>
+
+    <p>Workers:</p>
+    <a href="http://127.0.0.1:5721/hello"> HelloWorker </a> <br>
+    <a href="http://127.0.0.1:5721/cw"> CircleWorker </a> <br>
+    <br>
+
+    <p>Enter values to calculate sum:</p>
+    <form action="./calc" method="get">
+	a: <input type="text" name="a"><br>
+	b: <input type="text" name="b"><br>
+	<input type="submit" value="Submit">
+    </form><br>
+
+    <p>Select background color:</p>
+    <form action="./setbgcolor" method="get">
+      <select name="bgcolor">
+	  <option value="FFFFFF">White</option>
+  	  <option value="B3B1B1">Grey</option>
+	  <option value="47A10C">Green</option>
+	  <option value="FF0000">Red</option>
+	  <option value="2A6795">Blue</option>
+	  <option value="000000">Black</option>
+      </select><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

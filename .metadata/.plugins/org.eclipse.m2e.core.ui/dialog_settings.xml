@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+	<section name="org.eclipse.m2e.core.pom.overview">
+		<list key="ciManagementUrl">
+		</list>
+		<list key="ciManagementSystem">
+		</list>
+		<list key="issueManagementSystem">
+		</list>
+		<list key="issueManagementUrl">
+		</list>
+	</section>
+	<section name="MavenProjectImportWizardPage">
+		<list key="rootDirectory">
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw17-0036507313-2"/>
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw17-0036507313"/>
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw16-0036507313"/>
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw14-0036507313"/>
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw13-0036507313"/>
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw09-0036507313"/>
+			<item value="D:\Downloads"/>
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw08-0036507313"/>
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw06-0036507313"/>
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw05-0036507313"/>
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw03-0036507313"/>
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw02-0036507313"/>
+			<item value="D:\Documents\FER\OPJJ\Eclipse\Workspace\hw01-0036507313"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+</section>

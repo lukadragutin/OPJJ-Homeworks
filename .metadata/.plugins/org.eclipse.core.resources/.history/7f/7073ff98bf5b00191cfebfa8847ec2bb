@@ -1,0 +1,226 @@
+package hr.fer.zemris.java.hw05.db;
+
+import java.util.List;
+import java.util.Objects;
+
+public class QueryParser {
+
+	private QueryLexer lexer;
+	private List<ConditionalExpression> query;
+
+	public QueryParser(String query) {
+		super();
+		lexer = new QueryLexer(query);
+		parse();
+	}
+	
+	private void parse() {
+		ConditionalExpression expression = getExpression();
+		while(expression != null) {
+			query.add(expression);
+			expression = getExpression();
+		}
+	}
+
+	private ConditionalExpression getExpression() {
+		Token<String> t1 = lexer.nextToken();
+		if(t1.getType().equals(TokenType.END)) {
+			return null;
+		}
+		if(t1.getType().equals(TokenType.AND)) {
+			if(query.isEmpty()) {
+				throw new IllegalArgumentException("Invalid query! AND has to be followed by an expression");
+			}
+			else {
+				t1 = lexer.nextToken();
+			}
+		}
+		if(!t1.getType().equals(TokenType.FIELDNAME)) {
+			throw new IllegalArgumentException("Invalid query! First argument must be a field name!");
+		}
+		var field = fieldGetter(t1.value);
+		t1 = lexer.nextToken();
+		if(!t1.getType().equals(TokenType.OPERATOR)) {
+			throw new IllegalArgumentException("Invalid query! Field name must be followed by an operator!");
+		}
+		var operator = getComparisonOperator(t1.value);
+		t1 = lexer.nextToken();
+		if(!t1.getType().equals(TokenType.STRING)) {
+			throw new IllegalArgumentException("Invalid query! Operator must be followed by a string literal!");
+		}
+		String string = t1.getValue();
+		return new ConditionalExpression(field, operator, string);
+	}
+
+	private IComparisonOperator getComparisonOperator(String value) {
+		switch(value) {
+		case "=":
+			return ComparisonOperators.EQUALS;
+		case "<":
+			return ComparisonOperators.LESS;
+		case "<=":
+			return ComparisonOperators.LESS_OR_EQUALS;
+		case ">":
+			return ComparisonOperators.GREATER;
+		case ">=":
+			return ComparisonOperators.GREATER_OR_EQUALS;
+		case "!=":
+			return ComparisonOperators.NOT_EQUALS;
+		case "LIKE":
+			return ComparisonOperators.LIKE;
+		default:
+			throw new IllegalArgumentException("Wrong operator!");
+		}
+	}
+
+	private IFieldValueGetter fieldGetter(String value) {
+		switch(value) {
+		case "jmbag":
+			return FieldValueGetters.JMBAG;
+		case "firstName":
+			return FieldValueGetters.FIRST_NAME;
+		case "lastName":
+			return FieldValueGetters.LAST_NAME;
+		default:
+			throw new IllegalArgumentException("Wrong field name entry!");
+		}
+	}
+
+	public boolean isDirectQuery() {
+		return query.size() == 1 && query.get(0).getFieldGetter().equals(FieldValueGetters.JMBAG);
+	}
+	
+	public String getQuerriedJMBAG() {
+		if(!isDirectQuery()) {
+			throw new IllegalStateException("Not a direct query!");
+		}
+		else {
+			return query.get(0).getStringLiteral();
+		}
+	}
+	
+	public List<ConditionalExpression> getQuery() {
+		return query;
+	}
+	
+	public static class Token<T> {
+		
+		private T value;
+		private TokenType type;
+		
+		public Token(T value, TokenType type) {
+			this.value = value;
+			this.type = Objects.requireNonNull(type);
+		}
+
+		public T getValue() {
+			return value;
+		}
+
+		public TokenType getType() {
+			return type;
+		}
+	}
+	
+	public static enum TokenType {
+		OPERATOR, FIELDNAME, AND, STRING, END
+	}
+	
+	public static class QueryLexer {
+		
+		private char[] data;
+		private Token<String> token;
+		private int currentIndex;
+		
+		public QueryLexer(String query) {
+			data = Objects.requireNonNull(query).trim().toCharArray();
+		}
+
+		public Token<String> getToken() {
+			return token;
+		}
+		
+		public Token<String> nextToken() {
+			generateToken();
+			return token;
+		}
+		
+		private void generateToken() {
+			if(currentIndex >= data.length) {
+				token = new Token<String>(null, TokenType.END);
+			}
+			char ch = data[currentIndex++];
+			while(Character.isWhitespace(ch) && currentIndex <= data.length) {
+				ch = data[currentIndex++];
+			}
+			currentIndex--;
+			if(Character.isLetter(ch) || ch == '"') {
+				generateWord();
+			}
+			else if(isOperator(ch)) {
+				generateOperator();
+			}
+			else {
+				throw new IllegalArgumentException("Wrong query format!");
+			}
+		}
+		
+		private void generateOperator() {
+			char ch = data[currentIndex++];
+			if((ch == '<' || ch == '>') && currentIndex < data.length && data[currentIndex] == '=') {
+				token = new Token<String>(String.valueOf(ch) + String.valueOf(data[currentIndex++]), TokenType.OPERATOR);
+				return;
+			}
+			else if(ch == '!') {
+				if(currentIndex < data.length && data[currentIndex] == '=') {
+					token = new Token<String>(String.valueOf(ch) + String.valueOf(data[currentIndex++]), TokenType.OPERATOR);
+					return;
+				}
+				else {
+					throw new IllegalArgumentException("Wrong query format!");
+				}
+			}
+			else {
+				token = new Token<String>(String.valueOf(ch), TokenType.OPERATOR);
+			}
+			
+		}
+
+		private boolean isOperator(char ch) {
+			if(ch == '<' || ch == '>' || ch == '=' || ch == '!') {
+				return true;
+			}
+			return false;
+		}
+
+		private void generateWord() {
+			StringBuilder sb = new StringBuilder();
+			boolean isString = false;
+			char ch = data[currentIndex++];
+			if(ch == '"') {
+				ch = data[currentIndex++];
+				isString = true;
+			}
+			 while(Character.isLetter(ch) && ch != '"' ) {
+				sb.append(ch);
+				if(currentIndex == data.length) {
+					currentIndex++;
+					break;
+				}
+				ch = data[currentIndex++];
+			}
+			currentIndex--;
+			if(isString) {
+				token = new Token<String>(sb.toString(), TokenType.STRING);
+				currentIndex++;
+			}
+			if(sb.toString().equalsIgnoreCase("and")) {
+				token = new Token<String>(null, TokenType.AND);
+			}
+			if(sb.toString().equals("LIKE")) {
+				token = new Token<String>(sb.toString(), TokenType.OPERATOR);
+			}
+			token = new Token<String>(sb.toString(), TokenType.FIELDNAME);
+		}
+	}
+}

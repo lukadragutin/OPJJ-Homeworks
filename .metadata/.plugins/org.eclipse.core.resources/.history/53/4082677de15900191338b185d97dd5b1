@@ -1,0 +1,26 @@
+package hr.fer.zemris.lsystems.impl.commands;
+
+import hr.fer.zemris.lsystems.Painter;
+import hr.fer.zemris.lsystems.impl.Command;
+import hr.fer.zemris.lsystems.impl.Context;
+import hr.fer.zemris.lsystems.impl.TurtleState;
+import hr.fer.zemris.math.Vector2D;
+
+public class SkipCommand implements Command{
+
+	private double step;
+	
+	public SkipCommand(double step) {
+		super();
+		this.step = step;
+	}
+
+	public void execute(Context ctx, Painter painter) {
+		TurtleState state = ctx.getCurrentState();
+		double angle = Math.atan2(state.getOrientation().getY(), state.getOrientation().getX());
+		
+		double newX = step * state.getUnitLength() * Math.cos(angle);
+		double newY = step * state.getUnitLength() * Math.sin(angle);
+		state.setPosition(new Vector2D(newX, newY));
+	}
+}

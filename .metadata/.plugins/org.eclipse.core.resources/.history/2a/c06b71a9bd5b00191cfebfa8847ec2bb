@@ -1,0 +1,16 @@
+package hr.fer.zemris.java.hw05.db;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class QueryParserTest {
+
+	@Test
+	void test() {
+		var qp = new QueryParser("jmbag = \"0000000005\"");
+		assertEquals("0000000005", qp.getQuerriedJMBAG());
+		assertTrue(qp.isDirectQuery());
+	}
+
+}

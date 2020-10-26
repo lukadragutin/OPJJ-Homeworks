@@ -1,0 +1,57 @@
+package hr.fer.zemris.lsystems.impl;
+
+import java.awt.Color;
+
+import hr.fer.zemris.math.*;
+
+public class TurtleState {
+
+	private Vector2D position;
+	private Vector2D orientation;
+	private Color color;
+	private double unitLength;
+	
+	
+	public TurtleState(Vector2D position, Vector2D orientation, Color color, double unitLength) {
+		super();
+		this.position = position;
+		this.orientation = orientation;
+		this.color = color;
+		this.unitLength = unitLength;
+	}
+	
+	
+	
+	public Vector2D getPosition() {
+		return position;
+	}
+	
+	public void setPosition(Vector2D position) {
+		this.position = position;
+	}
+
+	public Vector2D getOrientation() {
+		return orientation;
+	}
+
+
+
+	public Color getColor() {
+		return color;
+	}
+
+
+
+	public double getUnitLength() {
+		return unitLength;
+	}
+
+
+
+	public TurtleState copy() {
+		return new TurtleState(position.copy(), orientation.copy()
+				, new Color(color.getRGB()), unitLength);
+	}
+	
+	
+}

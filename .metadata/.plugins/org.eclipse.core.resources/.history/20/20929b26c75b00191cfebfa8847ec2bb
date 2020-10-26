@@ -1,0 +1,23 @@
+package hr.fer.zemris.java.hw05.db;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+public class StudentDB {
+
+	public static void main(String[] args) {
+
+		List<String> lines;
+		try {
+			lines = Files.readAllLines(Paths.get("./prva.txt"), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			System.out.println("Error while reading from database file.");
+			System.exit(1);
+		}
+		StudentDatabase database = new StudentDatabase(lines);
+	}
+
+}

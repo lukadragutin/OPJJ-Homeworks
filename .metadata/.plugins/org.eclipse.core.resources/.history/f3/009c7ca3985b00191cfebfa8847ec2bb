@@ -1,0 +1,19 @@
+package hr.fer.zemris.java.hw05.db;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class StudentDatabaseTest {
+
+	@BeforeEach
+	void setUp() throws Exception {
+	}
+
+	@Test
+	void test() {
+		fail("Not yet implemented");
+	}
+
+}

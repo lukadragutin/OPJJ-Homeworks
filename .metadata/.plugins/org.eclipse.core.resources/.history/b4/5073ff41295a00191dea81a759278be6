@@ -1,0 +1,31 @@
+package hr.fer.zemris.lsystems.impl.commands;
+
+import javax.swing.text.Position;
+
+import hr.fer.zemris.lsystems.Painter;
+import hr.fer.zemris.lsystems.impl.Command;
+import hr.fer.zemris.lsystems.impl.Context;
+import hr.fer.zemris.lsystems.impl.TurtleState;
+import hr.fer.zemris.math.Vector2D;
+
+public class DrawCommand implements Command {
+
+	private double step;
+
+	public DrawCommand(double step) {
+		super();
+		this.step = step;
+	}
+	
+	@Override
+	public void execute(Context ctx, Painter painter) {
+		TurtleState oldState = ctx.getCurrentState();
+		double x = oldState.getPosition().getX();
+		double y = oldState.getPosition().getY();
+		Vector2D position = oldState.getPosition();
+		double scaler = step*oldState.getUnitLength()*Math.pow(ctx.getDegree(), ctx.getDepth());
+		position.translate(oldState.getOrientation());
+		
+		painter.drawLine(x, y, position.getX(), position.getY(), ctx.getCurrentState().getColor(), 1f);
+	}
+}

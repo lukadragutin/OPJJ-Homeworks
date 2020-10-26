@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.internal.QuickAccess">
+		<item key="dialogHeight" value="943"/>
+		<item key="dialogWidth" value="1162"/>
+		<list key="textEntries">
+		</list>
+		<list key="orderedElements">
+		</list>
+		<list key="orderedProviders">
+		</list>
+		<list key="textArray">
+		</list>
+	</section>
+	<section name="NewWizardAction">
+		<item key="NewWizardSelectionPage.STORE_SELECTED_ID" value="org.eclipse.ui.wizards.new.file"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.ui.Basic"/>
+			<item value="org.eclipse.jdt.ui.java"/>
+			<item value="org.eclipse.jdt.ui.java/org.eclipse.jdt.junit"/>
+		</list>
+	</section>
+	<section name="ImportExportAction">
+		<item key="ImportExportPage.STORE_SELECTED_EXPORT_WIZARD_ID" value="org.eclipse.ui.wizards.export.Preferences"/>
+		<item key="ImportExportPage.STORE_SELECTED_IMPORT_WIZARD_ID" value="org.eclipse.m2e.core.wizards.Maven2ImportWizard"/>
+		<list key="ImportExportPage.STORE_EXPANDED_IMPORT_CATEGORIES">
+			<item value="org.eclipse.ui.Basic"/>
+			<item value="org.eclipse.m2e"/>
+		</list>
+		<list key="ImportExportPage.STORE_EXPANDED_EXPORT_CATEGORIES">
+			<item value="org.eclipse.ui.Basic"/>
+		</list>
+	</section>
+	<section name="ZipFileImportWizard">
+		<item key="WizardZipFileResourceImportPage1.STORE_OVERWRITE_EXISTING_RESOURCES_ID" value="false"/>
+		<list key="WizardZipFileResourceImportPage1.STORE_SOURCE_NAMES_ID">
+			<item value="D:\Downloads\coloring-framework-1.0.jar"/>
+		</list>
+	</section>
+	<section name="ZipFileExportWizard">
+		<item key="WizardZipFileResourceExportPage1.STORE_COMPRESS_CONTENTS_ID" value="true"/>
+		<item key="WizardZipFileResourceExportPage1.STORE_CREATE_STRUCTURE_ID" value="false"/>
+		<list key="WizardZipFileResourceExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\jir-003650713.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\zi-003650713.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw17-0036507313-1.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw17-0036507313-2.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw11-0036507313.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw16-0036507313.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw15-0036507313.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw14-0036507313.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw13-0036507313.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw10-0036507313.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw09-0036507313.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw08-0036507313.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw07-0036507313.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw05-0036507313.zip"/>
+			<item value="D:\Documents\FER\OPJJ\Domace zadace\hw06-0036507313.zip"/>
+		</list>
+	</section>
+	<section name="WorkbenchPreferenceDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="9"/>
+		<item key="DIALOG_Y_ORIGIN" value="0"/>
+	</section>
+	<section name="PreferencesExportWizard">
+		<item key="" value="D:\Documents\IDE\preferences\cupJavaWorkspace.epf"/>
+		<item key="WizardPreferencesExportPage1.STORE_OVERWRITE_EXISTING_FILES_ID" value="false"/>
+		<item key="WizardPreferencesExportPage1.EXPORT_ALL_PREFERENCES_ID" value="false"/>
+		<item key="" value="D:\Documents\FER\javaPref.epf"/>
+		<list key="WizardPreferencesExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="D:\Documents\FER\javaPref.epf"/>
+			<item value="D:\Documents\IDE\preferences\cupJavaWorkspace.epf"/>
+		</list>
+		<list key="WizardPreferencesExportPage1.TRANSFER_PREFERENCES_NAMES_ID">
+			<item value="org.eclipse.jdt.internal.ui.transfer.codestyle"/>
+			<item value="org.eclipse.ui.ide.transfer.keys"/>
+		</list>
+	</section>
+</section>

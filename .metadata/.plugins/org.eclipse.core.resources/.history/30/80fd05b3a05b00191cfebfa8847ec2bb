@@ -1,0 +1,23 @@
+package hr.fer.zemris.java.hw05.db;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class ComparisonOperatorsTest {
+
+	@BeforeEach
+	void setUp() {
+	}
+
+	@Test
+	void less() {
+		var less = ComparisonOperators.LESS;
+		String s1 = "Ivo";
+		String s2 = "Ivona";
+		assertTrue(less.satisfied(s1, s2));
+		assertFalse(less.satisfied(s2, s1));
+	}
+
+}

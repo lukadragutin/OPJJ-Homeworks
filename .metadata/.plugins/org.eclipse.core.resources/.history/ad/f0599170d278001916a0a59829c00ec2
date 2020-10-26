@@ -1,0 +1,160 @@
+package hr.fer.zemris.java.raytracer.model;
+
+/**
+ * A representation of a 3D sphere. It is defined by
+ * its center point and radius. It also has predefined
+ * lighting parameters.
+ * @author Luka Dragutin
+ *
+ */
+public class Sphere extends GraphicalObject {
+
+	/**
+	 * The center point of the sphere
+	 */
+	private Point3D center;
+	
+	/**
+	 * The radius od the sphere
+	 */
+	private double radius;
+	
+	/**
+	 * Difusive lightning koeficient for red color
+	 */
+	private double kdr;
+	
+	/**
+	 * Difusive lightning koeficient for green color
+	 */
+	private double kdg;
+	
+	/**
+	 * Difusive lightning koeficient for blue color
+	 */
+	private double kdb;
+	
+	/**
+	 * Reflective lightning koeficient for red color
+	 */
+	private double krr;
+
+	/**
+	 * Reflective lightning koeficient for green color
+	 */
+	private double krg;
+	
+	/**
+	 * Reflective lightning koeficient for blue color
+	 */
+	private double krb;
+	
+	/**
+	 * Surface roughness index
+	 */
+	private double krn;
+
+	public Sphere(Point3D center, double radius, double kdr, double kdg, double kdb, double krr, double krg, double krb,
+			double krn) {
+		this.center = center;
+		this.radius = radius;
+		this.kdr = kdr;
+		this.kdg = kdg;
+		this.kdb = kdb;
+		this.krr = krr;
+		this.krg = krg;
+		this.krb = krb;
+		this.krn = krn;
+	}
+
+	@Override
+	public RayIntersection findClosestRayIntersection(Ray ray) {
+		Point3D toCenter = ray.start.sub(center);
+		
+		double norm = ray.direction.norm();
+		double a = norm * norm;
+		double b = ray.direction.scalarProduct(toCenter) * 2;
+		double c = toCenter.scalarProduct(toCenter) - radius * radius;
+		
+		double D = b*b - 4*a*c;
+		if(D < 0) {
+			return null;
+		}
+		
+		double cross1 = (-b - Math.sqrt(D)) / 2*a;
+		double cross2 = (-b + Math.sqrt(D)) / 2*a;
+		double closer;
+		boolean outer;
+		
+		if(cross2 < 0) {
+			return null;
+		}
+		else if(cross1 < 0) {
+			closer = cross2;
+			outer = false;
+		}
+		else {
+			closer = cross1;
+			outer = false;
+		}
+		
+		Point3D point = ray.start.add(ray.direction.scalarMultiply(closer));
+		return new RayIntersectionSphere(point, closer, outer);
+	}
+
+	/**
+	 * Implementation of a intersection between a sphere and a ray
+	 * @author Luka Dragutin
+	 *
+	 */
+	private class RayIntersectionSphere extends RayIntersection {
+
+		protected RayIntersectionSphere(Point3D point, double distance, boolean outer) {
+			super(point, distance, outer);
+		}
+
+
+		@Override
+		public Point3D getNormal() {
+			return this.getPoint().sub(center).normalize();
+			
+		}
+
+		@Override
+		public double getKdr() {
+			return kdr;
+		}
+
+		@Override
+		public double getKdg() {
+			return kdg;
+		}
+
+		@Override
+		public double getKdb() {
+			return kdb;
+		}
+
+		@Override
+		public double getKrr() {
+			return krr;
+		}
+
+		@Override
+		public double getKrg() {
+			return krg;
+		}
+
+		@Override
+		public double getKrb() {
+			return krb;
+		}
+
+		@Override
+		public double getKrn() {
+			return krn;
+		}
+
+	}
+
+}

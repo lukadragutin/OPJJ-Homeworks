@@ -1,0 +1,15 @@
+127.0.0.1 - - [11/Sep/2019:18:55:24 +0200] "GET / HTTP/1.1" 404 1074
+127.0.0.1 - - [11/Sep/2019:18:55:46 +0200] "GET /grafika/main HTTP/1.1" 200 809
+127.0.0.1 - - [11/Sep/2019:18:55:46 +0200] "GET /favicon.ico HTTP/1.1" 404 1085
+127.0.0.1 - - [11/Sep/2019:18:57:24 +0200] "GET /grafika/open?name=neZnam.jvd HTTP/1.1" 200 307
+127.0.0.1 - - [11/Sep/2019:18:57:25 +0200] "GET /grafika/slika?name=neZnam.jvd HTTP/1.1" 200 7302
+127.0.0.1 - - [11/Sep/2019:18:57:29 +0200] "GET /grafika/main HTTP/1.1" 200 809
+127.0.0.1 - - [11/Sep/2019:18:58:13 +0200] "POST /grafika/addFile HTTP/1.1" 302 -
+127.0.0.1 - - [11/Sep/2019:18:58:13 +0200] "GET /grafika/main HTTP/1.1" 200 880
+127.0.0.1 - - [11/Sep/2019:18:58:15 +0200] "GET /grafika/open?name=BrunOSmrdi.jvd HTTP/1.1" 200 315
+127.0.0.1 - - [11/Sep/2019:18:58:16 +0200] "GET /grafika/slika?name=BrunOSmrdi.jvd HTTP/1.1" 200 1122
+127.0.0.1 - - [11/Sep/2019:19:01:42 +0200] "GET /grafika/open?name=Marija2.jvd HTTP/1.1" 500 1590
+127.0.0.1 - - [11/Sep/2019:19:01:50 +0200] "GET /grafika/open?name=hw1.jvd HTTP/1.1" 200 301
+127.0.0.1 - - [11/Sep/2019:19:01:50 +0200] "GET /grafika/slika?name=hw1.jvd HTTP/1.1" 200 8842
+127.0.0.1 - - [11/Sep/2019:20:08:00 +0200] "GET /grafika/slika?name=hw1.jvd HTTP/1.1" 200 8842
+127.0.0.1 - - [11/Sep/2019:20:08:01 +0200] "GET /favicon.ico HTTP/1.1" 404 1085

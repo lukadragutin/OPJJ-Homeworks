@@ -1,0 +1,12 @@
+/**
+ * 
+ */
+package hr.fer.zemris.lsystems.impl;
+
+/**
+ * @author Luka
+ *
+ */
+public class LSystemBuilderImpl {
+
+}

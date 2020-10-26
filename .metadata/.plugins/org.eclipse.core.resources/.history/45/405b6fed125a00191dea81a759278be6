@@ -1,0 +1,71 @@
+package hr.fer.zemris.lsystems.impl;
+
+import hr.fer.zemris.java.custom.collections.Dictionary;
+import hr.fer.zemris.lsystems.LSystem;
+import hr.fer.zemris.lsystems.LSystemBuilder;
+
+/**
+ * @author Luka
+ *
+ */
+public class LSystemBuilderImpl implements LSystemBuilder{
+	
+	private Dictionary<String, String> products;
+	private Dictionary<String, String> commands;
+
+	@Override
+	public LSystem build() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder configureFromText(String[] arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder registerCommand(char arg0, String arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder registerProduction(char arg0, String arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder setAngle(double arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder setAxiom(String arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder setOrigin(double arg0, double arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder setUnitLength(double arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder setUnitLengthDegreeScaler(double arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+}

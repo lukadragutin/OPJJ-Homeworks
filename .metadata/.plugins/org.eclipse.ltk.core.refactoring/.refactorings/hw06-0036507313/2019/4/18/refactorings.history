@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Util.java&apos; to &apos;hw08-0036507313/src/main/java/hr.fer.zemris.java.hw06.crypto&apos;&#x0D;&#x0A;- Original project: &apos;hw06-0036507313&apos;&#x0D;&#x0A;- Destination element: &apos;hw08-0036507313/src/main/java/hr.fer.zemris.java.hw06.crypto&apos;&#x0D;&#x0A;- Original element: &apos;hr.fer.zemris.java.hw06.crypto.Util.java&apos;" description="Copy compilation unit" destination="=hw08-0036507313/src\/main\/java&lt;hr.fer.zemris.java.hw06.crypto" element1="/src\/main\/java&lt;hr.fer.zemris.java.hw06.crypto{Util.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1556548002348" units="1" version="1.0"/>
+</session>

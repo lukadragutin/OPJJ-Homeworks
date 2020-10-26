@@ -1,0 +1,26 @@
+package hr.fer.zemris.java.hw05.db;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+public class StudentDB {
+
+	public static void main(String[] args) {
+
+		StudentDatabase database;
+		try {
+			List<String> lines = Files.readAllLines(Paths.get("D:\\Downloads\\database.txt"), StandardCharsets.UTF_8);
+			database = new StudentDatabase(lines);
+		} catch (IOException e1) {
+			System.out.println("Error while reading from database file.");
+			System.exit(1);
+		} catch (IllegalArgumentException e2) {
+			System.out.println(e2.getMessage());
+		}
+		
+	}
+
+}

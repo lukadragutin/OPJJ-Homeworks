@@ -1,0 +1,68 @@
+package hr.fer.zemris.java.hw05.db;
+
+import java.util.List;
+import java.util.Objects;
+
+public class QueryParser {
+
+	private String query;
+	private QueryLexer lexer;
+
+	public QueryParser(String query) {
+		super();
+		this.query = query;
+	}
+	
+	public boolean isDirectQuery() {
+		return false;
+	}
+	
+	public String getQuerriedJMBAG() {
+		return null;
+	}
+	
+	public List<ConditionalExpression> getQuery() {
+		return null;
+	}
+	
+	public static class Token<T> {
+		
+		private T value;
+		private TokenType type;
+		
+		public Token(T value, TokenType type) {
+			this.value = value;
+			this.type = Objects.requireNonNull(type);
+		}
+
+		public T getValue() {
+			return value;
+		}
+
+		public TokenType getType() {
+			return type;
+		}
+	}
+	
+	public static enum TokenType {
+		OPERATOR, FIELDNAME, AND, STRING 
+	}
+	
+	public static class QueryLexer {
+		
+		private String query;
+		private Token<String> token;
+		
+		public QueryLexer(String query) {
+			this.query = Objects.requireNonNull(query);
+		}
+
+		public String getQuery() {
+			return query;
+		}
+
+		public Token<String> getToken() {
+			return token;
+		}
+	}
+}

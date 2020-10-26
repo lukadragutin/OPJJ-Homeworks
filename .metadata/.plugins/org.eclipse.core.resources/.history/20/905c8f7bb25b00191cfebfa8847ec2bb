@@ -1,0 +1,86 @@
+package hr.fer.zemris.java.hw05.db;
+
+import java.util.List;
+import java.util.Objects;
+
+public class QueryParser {
+
+	private String query;
+	private QueryLexer lexer;
+
+	public QueryParser(String query) {
+		super();
+		this.query = query;
+	}
+	
+	public boolean isDirectQuery() {
+		return false;
+	}
+	
+	public String getQuerriedJMBAG() {
+		return null;
+	}
+	
+	public List<ConditionalExpression> getQuery() {
+		return null;
+	}
+	
+	public static class Token<T> {
+		
+		private T value;
+		private TokenType type;
+		
+		public Token(T value, TokenType type) {
+			this.value = value;
+			this.type = Objects.requireNonNull(type);
+		}
+
+		public T getValue() {
+			return value;
+		}
+
+		public TokenType getType() {
+			return type;
+		}
+	}
+	
+	public static enum TokenType {
+		OPERATOR, FIELDNAME, AND, STRING, END
+	}
+	
+	public static class QueryLexer {
+		
+		private char[] data;
+		private Token<String> token;
+		private int currentIndex;
+		
+		public QueryLexer(String query) {
+			data = Objects.requireNonNull(query).trim().toCharArray();
+		}
+
+		public Token<String> getToken() {
+			return token;
+		}
+		
+		public Token<String> nextToken() {
+			generateToken();
+			return token;
+		}
+		
+		private void generateToken() {
+			if(currentIndex >= data.length) {
+				token = new Token<String>(null, TokenType.END);
+			}
+			char ch = data[currentIndex++];
+			while(Character.isWhitespace(ch) && currentIndex <= data.length) {
+				ch = data[currentIndex++];
+			}
+			if(Character.isAlphabetic(ch) || ch == '"') {
+				generateWord();
+			}
+			else if(isOperator(ch)) {
+				token = new Token<String>(String.valueOf(ch), TokenType.OPERATOR);
+			}
+		}
+	}
+}

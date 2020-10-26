@@ -1,0 +1,27 @@
+package hr.fer.zemris.lsystems.impl.commands;
+
+import hr.fer.zemris.lsystems.Painter;
+import hr.fer.zemris.lsystems.impl.Command;
+import hr.fer.zemris.lsystems.impl.Context;
+import hr.fer.zemris.lsystems.impl.TurtleState;
+import hr.fer.zemris.math.Vector2D;
+
+public class SkipCommand implements Command{
+
+	private double step;
+	
+	public SkipCommand(double step) {
+		super();
+		this.step = step;
+	}
+
+	public void execute(Context ctx, Painter painter) {
+		TurtleState state = ctx.getCurrentState();
+		Vector2D position = state.getPosition().copy();
+		
+		double scaler = step*state.getUnitLength()*Math.pow(ctx.getDegree(), ctx.getDepth());
+		position.translate(state.getOrientation().scaled(scaler));
+		
+		state.setPosition(position);
+	}
+}

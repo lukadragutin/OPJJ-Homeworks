@@ -1,0 +1,81 @@
+package hr.fer.zemris.java.hw05.db;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+public class StudentDatabase {
+
+	private List<StudentRecord> students;
+	private Map<String, StudentRecord> studentMap;
+
+	public StudentDatabase(List<String> database) {
+		students = new ArrayList<>();
+		studentMap = new HashMap<>();
+		for (String s : database) {
+			var record = getRecord(s);
+			if(studentMap.containsKey(record.getJmbag())) {
+				throw new IllegalArgumentException("That jmbag is already in use!");
+			}
+			if(record.getFinalGrade() > 5 || record.getFinalGrade() < 1) {
+				throw new IllegalArgumentException("Wrong grade value!"); 
+			}
+			students.add(record);
+			studentMap.put(record.getJmbag(), record);
+		}
+	}
+	
+	public StudentRecord forJMBAG(String jmbag) {
+		return studentMap.get(Objects.requireNonNull(jmbag));
+	}
+	
+	public List<StudentRecord> filter(IFilter filter) {
+		Objects.requireNonNull(filter);
+		List<StudentRecord> filtered = new ArrayList<>();
+		for(StudentRecord sr : students) {
+			if(filter.accepts(sr)) {
+				filtered.add(sr);
+			}
+		}
+		return filtered;
+	}
+
+	private StudentRecord getRecord(String student) {
+		String[] values = new String[5];
+		String line = student.toString().trim();
+		int i = 0;
+		while (!line.isEmpty()) {
+			int spaceIndex = line.indexOf(' ');
+			if (spaceIndex != -1) {
+				values[i] = line.substring(0, spaceIndex);
+				line = line.substring(spaceIndex);
+				line.trim();
+			} else {
+				values[i] = line;
+				break;
+			}
+			i++;
+		}
+		try {
+			String jmbag = values[0];
+			String lastName;
+			String firstName;
+			int finalGrade;
+			if(i == 4) {
+				lastName = values[1] + " " + values[2];
+				firstName = values[3];
+				finalGrade = Integer.parseInt(values[4]);
+			}
+			else {
+				lastName = values[1];
+				firstName = values[2];
+				finalGrade = Integer.parseInt(values[3]);
+			}
+			return new StudentRecord(jmbag, lastName, firstName, finalGrade);
+		} catch (NumberFormatException ex) {
+			throw new IllegalArgumentException("Wrong student information format!");
+		}
+	}
+}

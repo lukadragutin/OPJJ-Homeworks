@@ -1,0 +1,34 @@
+package hr.fer.zemris.java.hw05.db;
+
+import java.util.Objects;
+
+public class ConditionalExpression {
+
+	private IFieldValueGetter fieldGetter;
+	private IComparisonOperator comparisonOperator;
+	private String stringLiteral;
+	
+	
+	public ConditionalExpression(IFieldValueGetter fieldGetter, IComparisonOperator comparisonOperator,
+			String stringLiteral) {
+		super();
+		this.fieldGetter = Objects.requireNonNull(fieldGetter);
+		this.comparisonOperator = Objects.requireNonNull(comparisonOperator);
+		this.stringLiteral = Objects.requireNonNull(stringLiteral);
+	}
+
+
+	public IFieldValueGetter getFieldGetter() {
+		return fieldGetter;
+	}
+
+
+	public IComparisonOperator getComparisonOperator() {
+		return comparisonOperator;
+	}
+
+
+	public String getStringLiteral() {
+		return stringLiteral;
+	}	
+}

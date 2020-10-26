@@ -1,0 +1,107 @@
+package hr.fer.zemris.lsystems.impl;
+
+import java.awt.Color;
+
+import hr.fer.zemris.java.custom.collections.Dictionary;
+import hr.fer.zemris.lsystems.LSystem;
+import hr.fer.zemris.lsystems.LSystemBuilder;
+import hr.fer.zemris.lsystems.Painter;
+import hr.fer.zemris.math.Vector2D;
+
+/**
+ * @author Luka
+ *
+ */
+public class LSystemBuilderImpl implements LSystemBuilder{
+	
+	private Dictionary<ch, String> productions;
+	private Dictionary<Character, Command> commands;
+	private static double unitLength = 0.1;
+	private static double UnitLengthDegreeScaler = 1;
+	private static Vector2D origin = new Vector2D(0, 0);
+	private static double angle = 0;
+	private static String axiom = "";
+	private final static Color DEFAULT_COLOR = Color.BLACK;
+
+	@Override
+	public LSystem build() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder configureFromText(String[] arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder registerCommand(char arg0, String arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder registerProduction(char arg0, String arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder setAngle(double arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder setAxiom(String arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder setOrigin(double arg0, double arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder setUnitLength(double arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder setUnitLengthDegreeScaler(double arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	private class LSystemImpl implements LSystem {
+		
+		private Context ctx;
+		private Painter painter;
+		
+		@Override
+		public void draw(int arg0, Painter arg1) {
+			ctx = new Context();
+			TurtleState state = new TurtleState(origin, new Vector2D(1, 0), DEFAULT_COLOR, unitLength);
+			ctx.pushState(state);
+			String str = generate(arg0);
+			process(str);
+		}
+
+		@Override
+		public String generate(int arg0) {
+			StringBuilder sb = new StringBuilder(axiom);
+			int i = 0;
+			while(i < sb.length()) {
+				char ch = sb.charAt(i);
+				if(productions.get(ch))
+			}
+		}
+		
+	}
+
+	
+}

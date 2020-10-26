@@ -1,0 +1,47 @@
+package hr.fer.zemris.java.hw05.db;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class ComparisonOperatorsTest {
+
+	@BeforeEach
+	void setUp() {
+	}
+
+	@Test
+	void less() {
+		var less = ComparisonOperators.LESS;
+		String s1 = "Ivo";
+		String s2 = "Ivona";
+		assertTrue(less.satisfied(s1, s2));
+		assertFalse(less.satisfied(s2, s1));
+	}
+	
+	@Test
+	void lessOrEquals() {
+		var lessOrEquals = ComparisonOperators.LESS_OR_EQUALS;
+		var s1 = "Ivo";
+		var s2 = "Matija";
+		var s3 = "Matija";
+		assertTrue(lessOrEquals.satisfied(s1, s2));
+		assertTrue(lessOrEquals.satisfied(s2, s3));
+		assertFalse(lessOrEquals.satisfied(s3, s1));	
+	}
+	
+	@Test
+	void likeWrongFormat() {
+		assertThrows(IllegalArgumentException.class, () -> ComparisonOperators.LIKE.satisfied("Maedvjed", "Me*vj*"));
+	}
+	
+	@Test
+	void likeWithoutWildcard() {
+		var like = ComparisonOperators.LIKE;
+		var s1 = "Zagrebački";
+		assertTrue(like.satisfied(s1, "Zagreb"));
+		assertFalse(like.satisfied(s1, "Zdrav"));
+	}
+
+}

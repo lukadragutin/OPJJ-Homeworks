@@ -1,0 +1,26 @@
+Sve u svemu korektno napisana zadaca za koju bih dao ocjenu 3. Nažalost, zadaca ne zadovoljava minimalne uvjete te joj stoga dajem ocjenu 1.
+
+1. ZADATAK
+- ne vidim svrhu degreeja i deptha u Contextu. Iz zadatka:
+unitLengthDegreeScaler : kako bi se dimenzije prikazanog fraktala zadržale manje-više
+konstantnima, ako se generira niz za dubinu d , unitLength je potrebno na odgovarajuci nacin
+skalirati; stoga je pocetnu efektivnu duljinu koraka za kornjacu potrebno postaviti na
+unitLength * (unitLengthDegreeScaler^d)
+Dakle, potrebno je podesiti samo unitlength prvog TurtleStatea koji ide na stog
+- configureFromText() pretpostavlja da su slicne naredbe grupirane i odvojne praznim redom iako nitko ne garantira da ce biti tako. Savršeno ispravna konfiguracijska datoteka stoga ruši program
+
+2. ZADATAK
+- minimalni uvjeti nisu zadovoljeni - kod odabira 0 zapisa se ispisuju gornja i donja granica tablice
+- StudentDatabase.getRecord() ne pazi da je broj vrijednosti nakon splita jednak 4. Tada dolazi ArrayIndexOutOfBoundsExceptiona koji se ne lovi
+- bilo bi bolje da ste stavili sav kod leksicke analize u podpaket, ovako je prenatrpano
+___________________________________________________________________________
+**KOREKCIJA**
+
+1. ZADATAK:
+-pri stvaranju novog turtleStatea se inicijalizira unitLength pravilno
+-configureFromText() radi za slucajeve kad nema razmaka ili ih ima i više
+
+2. ZADATAK:
+-Tablica pri odabiru 0 zapisa ne ispisuje granice
+-getRecord() ima provjeru duljine arraya
+-Leksicka analiza u svom podpaketu

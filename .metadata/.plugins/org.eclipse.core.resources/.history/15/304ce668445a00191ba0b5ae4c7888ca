@@ -1,0 +1,212 @@
+package hr.fer.zemris.lsystems.impl;
+
+import java.awt.Color;
+import java.util.Objects;
+
+import hr.fer.zemris.java.custom.collections.Dictionary;
+import hr.fer.zemris.lsystems.LSystem;
+import hr.fer.zemris.lsystems.LSystemBuilder;
+import hr.fer.zemris.lsystems.Painter;
+import hr.fer.zemris.lsystems.impl.commands.ColorCommand;
+import hr.fer.zemris.lsystems.impl.commands.DrawCommand;
+import hr.fer.zemris.lsystems.impl.commands.PopCommand;
+import hr.fer.zemris.lsystems.impl.commands.PushCommand;
+import hr.fer.zemris.lsystems.impl.commands.RotateCommand;
+import hr.fer.zemris.lsystems.impl.commands.ScaleCommand;
+import hr.fer.zemris.lsystems.impl.commands.SkipCommand;
+import hr.fer.zemris.math.Vector2D;
+
+/**
+ * @author Luka
+ *
+ */
+public class LSystemBuilderImpl implements LSystemBuilder{
+	
+	private Dictionary<Character, String> productions;
+	private Dictionary<Character, Command> commands;
+	private double unitLength = 0.1;
+	private double UnitLengthDegreeScaler = 1;
+	private Vector2D origin = new Vector2D(0, 0);
+	private double angle = 0;
+	private String axiom = "";
+	private final static Color DEFAULT_COLOR = Color.BLACK;
+
+	public LSystemBuilderImpl() {
+		productions = new Dictionary<>();
+		commands = new Dictionary<>();
+	}
+
+	
+	@Override
+	public LSystem build() {
+		return new LSystemImpl();
+	}
+
+	@Override
+	public LSystemBuilder configureFromText(String[] arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LSystemBuilder registerCommand(char arg0, String arg1) {
+		String[] split = arg1.split(" ");
+		if(split.length == 1) {
+			noArgument(split[0], arg0);
+			return this;
+		}
+		double argument;
+		try {
+			argument = Double.parseDouble(split[1]);
+		} catch (NumberFormatException ex) {
+			colorArgument(split[0], arg0, split[1]);
+			return this;
+		}
+		doubleArgument(split[0], arg0, argument);
+		return this;
+	}
+	
+	private void noArgument(String command, char arg0) {
+		if(command.equalsIgnoreCase("pop")) {
+			commands.put(arg0, new PopCommand());
+		}
+		else if(command.equalsIgnoreCase("push")) {
+			commands.put(arg0, new PushCommand());
+		}
+		else {
+			throw new IllegalArgumentException("Command string is of wrong format!");
+		}
+	}
+
+	private void doubleArgument(String command, char arg0, double argument) {
+		switch(command) {
+		case "draw":
+			commands.put(arg0, new DrawCommand(argument));
+			break;
+		case "rotate":
+			commands.put(arg0, new RotateCommand(argument));
+			break;
+		case "skip":
+			commands.put(arg0, new SkipCommand(argument));
+			break;
+		case "scale":
+			commands.put(arg0, new ScaleCommand(argument));
+			break;
+		default:
+			throw new IllegalArgumentException("Wrong command format!");
+		}
+	}
+	
+	private void colorArgument(String command, char arg0, String argument) {
+		if(command.equalsIgnoreCase("color")) {
+			try {
+				Color color = Color.decode("#" + argument);
+				commands.put(arg0, new ColorCommand(color));
+			} catch (NumberFormatException exc) {
+				throw new IllegalArgumentException("Wrong color format!");
+			}
+		}
+		else {
+			throw new IllegalArgumentException("Wrong command format!");
+		}
+	}
+	
+	@Override
+	public LSystemBuilder registerProduction(char arg0, String arg1) {
+		productions.put(arg0, arg1);
+		return this;
+	}
+
+	@Override
+	public LSystemBuilder setAngle(double arg0) {
+		angle = Math.toRadians(arg0);
+		return this;
+	}
+
+	@Override
+	public LSystemBuilder setAxiom(String arg0) {
+		axiom = Objects.requireNonNull(arg0);
+		return this;
+	}
+
+	@Override
+	public LSystemBuilder setOrigin(double arg0, double arg1) {
+		if(arg0 < 0 || arg0 > 1 || arg1 < 0 || arg1 > 1) {
+			throw new IllegalArgumentException("Wrong coordinates!");
+		}
+		origin = new Vector2D(arg0, arg1);
+		return this;
+	}
+
+	@Override
+	public LSystemBuilder setUnitLength(double arg0) {
+		unitLength = arg0;
+		return this;
+	}
+
+	@Override
+	public LSystemBuilder setUnitLengthDegreeScaler(double arg0) {
+		UnitLengthDegreeScaler = arg0;
+		return this;
+	}
+	
+	private class LSystemImpl implements LSystem {
+		
+		private Context ctx;
+		private Painter painter;
+		
+		@Override
+		public void draw(int arg0, Painter arg1) {
+			if(arg0 < 0) {
+				throw new IllegalArgumentException("Wrong depth argument!");
+			}
+			ctx = new Context(UnitLengthDegreeScaler, arg0);
+			painter = Objects.requireNonNull(arg1);
+			TurtleState state = new TurtleState(origin, vectorFromAngle(angle), DEFAULT_COLOR, unitLength);
+			ctx.pushState(state);
+			String str = generate(arg0);
+			process(str);
+		}
+
+		@Override
+		public String generate(int arg0) {
+			StringBuilder sb = new StringBuilder(axiom);
+			int i = 0;
+			while(arg0 > 0) {
+				while(i < sb.length()) {
+					char ch = sb.charAt(i);
+					String production = productions.get(ch);
+					if(production != null) {
+						sb.deleteCharAt(i);
+						sb.append(production);
+						i += production.length();
+					}
+					else i++;
+				}
+				arg0--;
+			}
+			return sb.toString();
+		}
+		
+		private void process(String str) {
+			int i = 0;
+			while(i < str.length()) {
+				char ch = str.charAt(i);
+				Command c = commands.get(ch);
+				if(c != null) {
+					c.execute(ctx, painter);
+				}
+				i++;
+			}
+		}
+		
+		private Vector2D vectorFromAngle(double angle) {
+			double x = Math.cos(angle);
+			double y = Math.sin(angle);
+			return new Vector2D(x, y);
+		}
+		
+	}
+
+	
+}
